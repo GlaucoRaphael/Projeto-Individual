@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./css/cadastro.css">
+    <script src="./js/sessao.js"></script>
+</head>
+<body>
+    <div class="icone">
+        <a href="login.html"><img src="./imagem/61449-removebg-preview.png"></a>
+    </div>
+
+
+    <div class="container">
+        <div class="titulo"><h2><b>Cadastrar-se</h2></b>
+        <div class="nome"><span>Nome:</span></div>
+        <input type="text" class="inp_1" id="inp_nome">
+        <div class="email"><span>Email:</span></div>
+        <input class="inp_2" type="text" id="inp_2">
+        <div class="senha">Senha:</div>
+        <input type="password" class="inp_3" id="inp_3">
+        <div class="confirmar">Confirmar</div>
+        <div class="senha1">Senha:</div>
+        <input type="password" class="inp_4" id="inp_confirmar">
+        <button class="botao" onclick="calculo()">Finalizar</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+var segurança = []
+
+function calculo(){
+        var nome = inp_nome.value;
+        var email = inp_2.value;
+        var senha = inp_3.value;
+        var ConfirmarSenha = inp_confirmar.value;
+        var arroba = email.indexOf('@');
+        var ponto = email.indexOf('.');
+        var tamanho_email = email.length;
+        var ultimaletra = email[tamanho_email - 1];
+        var primeiraletra = email[0];
+        var emailValido = false;
+        var senhaTamanho = senha.length;
+        var senhaValida = false;
+        var confirmar = false;
+
+        if ((arroba == -1 || ponto == -1) || (ponto < arroba) || (ponto == arroba + 1) || (ultimaletra == '.') || (primeiraletra == '@')) {
+            emailValido = false;
+    } else {
+        emailValido = true;
+    }
+
+    for(var i = 0; i <= senha.length; i++){
+      if(senha[i] != ConfirmarSenha[i]){
+        confirmar = false
+      }
+      else{
+        confirmar = true;
+      }
+    }
+
+    if(senhaTamanho <= 5){
+        senhaValida = false
+    } else{
+        senhaValida = true;
+    }
+
+    if(nome == '' ||
+      senha == '' ||
+      ConfirmarSenha == ''
+    ){
+      confirmar == false
+    } else{
+      confirmar == true
+    }
+    
+
+    if (emailValido == false ||
+      confirmar == false ||
+      senhaValida == false
+    ) 
+    
+    {
+     // cardErro.style.display = "block";
+      alert =
+        ("Erro ao cadastrar");
+
+      // finalizarAguardar();
+      return false;
+    } else {
+      // setInterval(sumirMensagem, 5000);
+    }
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        emailServer: email,
+        senhaServer: senha,
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          //cardErro.style.display = "block";
+
+          alert =
+            ("Cadastro realizado com sucesso! Redirecionando para tela de Login...");
+
+          setTimeout(() => {
+            window.location = "./login.html";
+          }, "2000");
+
+          limparFormulario();
+          // finalizarAguardar();
+        } else {
+          throw alert("Houve um erro ao tentar realizar o cadastro!");
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        // finalizarAguardar();
+      });
+
+    return false;
+  }
+</script>

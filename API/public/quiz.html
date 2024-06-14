@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="./css/quiz.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="icone1"><a href="./dashboard/dashboard.html"><img src="./imagem/4646957__1_-removebg-previews.png"></a></div>
+        <div class="titulo">Quiz</div>
+        <div class="icone"><a href="./postagens.html"><img src="./imagem/61449-removebg-preview.png"></a></div>
+    </div>
+    <div class="fundo" id="fundo">
+        <div class="texto">
+            <h3>Bem vindo ao quiz, quer começar essa batalha?</h3>
+        </div>
+        <button class="botao1" onclick="sim()"><b>SIM</b></button>
+        <button class="botao2"><a href="./postagens.html"><b>NÃO</b></a></button>
+    </div>
+
+    <script>
+let respostasUsuario = []; 
+const questoes = [
+    {
+        pergunta: "Quais as principais táticas que os stormtroopers usavam para avançar?",
+        alternativas: ["Defesa em Profundidade", "Infiltração", "Choque e pavor", "Blitzkrieg"],
+        respostaCerta: 1
+    },
+    {
+        pergunta: "Qual foi a maior campanha em que os Stromtroopers foram implantados?",
+        alternativas: ["Ofensiva da Primavera", "Batalha de Cambrai", "Batalha de Verdun", "Batalha do Somme"],
+        respostaCerta: 0
+    },
+    {
+        pergunta: "Qual foi a batalha travado pelas forças italianas e os arditi que culminou na derrota do Impéro Austro Húngaro?",
+        alternativas: ["Batalha de Vittorio Veneto", "Batalha de Caporetto", "Batalha de Asiago", "Batalha do Forte de Osowiec"],
+        respostaCerta: 0
+    },
+    {
+        pergunta: "O que significa 'O La Vittoria o Tutti Acomppati'?",
+        alternativas: ["'Um Por Todos e Todos Por um'", "'Ou a Vitória ou Todos Mortos'", "'Ou Vencemos ou Todos Morremos'", "'Ou a Morte ou a Vitória'"],
+        respostaCerta: 1
+    }
+];
+
+function sim() {
+    const divFundo = document.getElementById('fundo');
+    divFundo.innerHTML = '';
+
+    exibirQuestao(0);
+}
+
+function exibirQuestao(numeroQuestao) {
+    const divFundo = document.getElementById('fundo');
+    divFundo.innerHTML = '';
+
+    const questaoAtual = questoes[numeroQuestao];
+    const { pergunta, alternativas } = questaoAtual;
+
+    let html = `<h3>Questão ${numeroQuestao + 1}: ${pergunta}</h3><div class="questoes">`;
+
+    for (let i = 0; i < alternativas.length; i++) {
+        html += `<button class="questao${i + 1}" onclick="responder(${numeroQuestao}, ${i}, ${questaoAtual.respostaCerta})">${alternativas[i]}</button>`;
+    }
+
+    html += `</div>`;
+    divFundo.innerHTML = html;
+}
+
+function responder(numeroQuestao, respostaUsuario, respostaCerta) {
+    if (respostaUsuario === respostaCerta) {
+        respostasUsuario[numeroQuestao] = true;
+    } else {
+        respostasUsuario[numeroQuestao] = false;
+    }
+
+    if (numeroQuestao < questoes.length - 1) {
+        exibirQuestao(numeroQuestao + 1);
+    } else {
+        exibirRespostas();
+    }
+}
+
+function exibirRespostas() {
+    const divFundo = document.getElementById('fundo');
+    divFundo.innerHTML = '<h4>Respostas:</h4><div class="respostas">';
+    
+    let acertos = 0;
+    let idusuario = sessionStorage.ID_USUARIO;
+    let totalQuestoes = questoes.length;
+
+    for (let i = 0; i < totalQuestoes; i++) {
+        const questaoAtual = questoes[i];
+        const { pergunta, alternativas, respostaCerta } = questaoAtual;
+        const respostaUsuario = respostasUsuario[i] ? 'Correta' : 'Incorreta';
+        const respostaCorretaTexto = alternativas[respostaCerta];
+
+        if (respostasUsuario[i]) {
+            acertos++;
+        }
+
+        divFundo.innerHTML += `<p>Questão ${i + 1}: ${pergunta} <br> Sua resposta: ${respostaUsuario} <br> Resposta correta: ${respostaCorretaTexto}</p>`;
+    }
+
+    let porcentagemAcertos = (acertos / totalQuestoes) * 100;
+
+    let feedback = '';
+    if (porcentagemAcertos === 100) {
+        feedback = 'Excelente! Você acertou todas as questões!';
+    } else if (porcentagemAcertos >= 70) {
+        feedback = 'Bom trabalho!';
+    } else {
+        feedback = 'Você pode melhorar...';
+    }
+
+    divFundo.innerHTML += `<p>Total de acertos: ${acertos} de ${totalQuestoes} (${porcentagemAcertos.toFixed(2)}%)</p>`;
+    divFundo.innerHTML += `<p>${feedback}</p>`;
+    divFundo.innerHTML += '</div>';
+    
+    fetch(`/pontos/pontuar`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            acertosServer: acertos,
+            idServer: idusuario
+        })
+    }).then(res => {
+        console.log(res);
+    })
+    console.log(acertos);
+}
+    </script>
+</body>
+
+</html>

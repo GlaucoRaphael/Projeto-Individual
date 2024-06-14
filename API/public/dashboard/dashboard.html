@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="titulo">Estatísticas</div>
+        <div class="icone"><a href="../postagens.html"><img src="../imagem/61449-removebg-preview.png"></a></div>
+        
+    </div>
+
+    <div class="kpi">
+      <div class="texto_kpi">Média: <span id="media"></span></div>
+    </div>
+
+    <div class="kpi_2">
+      <div class="texto_kpi2">Tentativas com 4 acertos: <span id="maximo"></span></div>
+    </div>
+
+    <div class="fundo">
+    <div class="grafico">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>      
+</body>
+</html>
+
+<script>
+    function grafico(){ 
+    const ctx = document.getElementById('myChart');
+    if(Chart.getChart(ctx)){
+      Chart.getChart(ctx).destroy()
+    }
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: listaUsuario,
+        datasets: [{
+          label: 'Acertos',
+          data: listaAcerto,
+          borderWidth: 1, 
+          backgroundColor: 'white'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: 'black'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: 'black'
+            }
+          },
+          x: {
+            ticks: {
+              color: 'black'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  window.onload = () => {buscar(), calculo()}
+  listaAcerto = []
+  listaUsuario = []
+
+    function buscar(){
+      fetch("/pontos/buscar").
+      then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json))
+
+                    for(var i = 0; i < json.length; i++){
+                      listaUsuario.push(json[i].nome)
+                      listaAcerto.push(json[i].acertos)
+                    }
+                    console.log(listaAcerto)
+                    console.log(listaUsuario)
+                    grafico()
+                    ;
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })}
+
+        function calculo(){
+        fetch("/pontos/calculo").
+      then(function (resposta) {
+            console.log("ESTOU NO THEN DO calculo()!")
+
+              if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json))
+                    media.innerHTML = json[0].media;
+                    maximo.innerHTML = json[1].media;
+                    ;
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+                
+            }
+
+           }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+  </script>
+  

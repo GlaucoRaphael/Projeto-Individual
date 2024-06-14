@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conta</title>
+    <link rel="stylesheet" href="./css/conta.css">
+</head>
+<body>
+    <div class="container">
+        <div class="icone">
+            <div class="icone1"><a href="./index2.html"><img src="./imagem/61449-removebg-preview.png"></a></div>
+        </div>
+        <div class="nome"><h3>Perfil</h3></div>
+        <div class="informacoes">
+            <div class="foto"><img src="./imagem/png-transparent-computer-icons-user-user-icon-removebg-preview.png"></div>
+            <div id="div_nome"></div>
+        </div>
+        <div class="informacoes2">
+            <div class="foto1"><img src="./imagem/126339-removebg-preview.png"></div>
+        <div id="div_email"></div>
+    </div>
+    <div class="botao"><button onclick="voltar_deslogado()">Sair</button></div>
+    </div>
+</body>
+</html>
+
+<script>
+    div_nome.innerHTML = `Olá ${sessionStorage.NOME_USUARIO}`;
+    div_email.innerHTML = `Email: ${sessionStorage.EMAIL_USUARIO}`;
+
+    function voltar() {
+        document.location.href = './index_logado.html'
+    }
+
+    function mudar_estado_perfil() {
+        var display = document.getElementById('perfil').style.display;
+
+        if(display == 'none' || display == '') {
+            document.getElementById('perfil').style.display = 'flex'
+        } else {
+            document.getElementById('perfil').style.display = 'none'
+        }
+    }
+
+    function voltar_deslogado() {
+        sessionStorage.EMAIL_USUARIO = '';
+        sessionStorage.NOME_USUARIO = '';
+        sessionStorage.ID_USUARIO = '';
+
+        setTimeout(function () {
+        window.location = "./index.html";
+        }, 3000); 
+    }
+</script>

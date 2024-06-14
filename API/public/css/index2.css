@@ -1,0 +1,61 @@
+.imagem {
+    height: 95vh;
+    width: 100%;
+    background-image: url("../imagem/SemTítulo1.png");
+    position: center;
+    background-size: cover;
+  
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0%;
+  }
+
+  ::-webkit-scrollbar{
+    display: none;
+}
+  
+  .container {
+    font-size: 28px;
+    background-color: #517198;
+    list-style-type: none;
+    height: 40px;
+    width: 100%;
+    margin: 0px;
+    margin-top: 0%;
+    margin-right: 0%;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container .vom-kriege {
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 0 yellow;
+  }
+  
+  .container .vom-kriege .sobre{
+    text-align: left;
+    color: white;
+    text-shadow: 1px 1px 0 yellow;
+    margin-top: -42px;
+    padding-top: 10px;
+  }
+  
+  .container .vom-kriege .sobre .login{
+    text-align: right;
+    color: white;
+    text-shadow: 1px 1px 0 yellow;
+    margin-top: -42px;
+    padding-top: 10px;  
+  }
+  
+  a:hover{
+    color: white;
+  }
+  
+  a{
+    color: white;
+  }

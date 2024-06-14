@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+    <div class="icone">
+        <a href="index.html"><img src="./imagem/61449-removebg-preview.png"></a>
+    </div>
+    <div class="container">
+        <div class="titulo">
+            <h1><b>Login</h1></b>
+            <div class="texto"><span><b>Email:</span></b></div>
+            <input class="inp1" type="text" id="inp_email">
+            <div class="senha"><span><b>Senha:</span></b></div>
+            <input class="inp2" type="password" id="inp_senha">
+            <div class="confirmar"><span><b>Confirmar Senha:</span></b></div>
+            <input class="inpConfirmar" type="password" id="inp_confirmar">
+            <button onclick="calculo()">Entrar</button>
+            <div class="cadastro"><a href="cadastro.html"><span class="txt-conta">Ainda não tem conta? </a></span></div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+
+    function calculo() {
+
+        var email = inp_email.value;
+        var senha = inp_senha.value;
+        var confirmar = inp_confirmar.value;
+        var arroba = email.indexOf('@');
+        var ponto = email.indexOf('.');
+        var tamanho_email = email.length;
+        var ultimaletra = email[tamanho_email - 1];
+        var primeiraletra = email[0];
+        var emailValido = false;
+        var senhaValida = false;
+
+        if (email == "" || senha == "" || confirmar == "") {
+            cardErro.style.display = "block"
+            alert ("Mensagem de erro para todos os campos em branco");
+            emailValido = false;
+            senhaValida = false;
+        }
+        else {
+         //   setInterval(sumirMensagem, 5000)
+            emailValido = true;
+            senhaValida = true;
+        }
+    
+        if ((arroba == -1 || ponto == -1) || (ponto < arroba) || (ponto == arroba + 1) || (ultimaletra == '.') || (primeiraletra == '@')) {
+            alert('Insira um email válido!');
+            emailValido = false;
+        } else{
+            emailValido = true;
+        }
+        if (confirmar != senha) {
+                alert('As senhas devem ser iguais');
+            } else{
+                senhaValida = true;
+            }       
+            
+        console.log("FORM LOGIN: ", email);
+        console.log("FORM SENHA: ", senha);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha,
+
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+                //    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+
+                     setTimeout(function () {
+                     window.location = "index2.html";
+                     }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+    //                finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    //function sumirMensagem() {
+      //  cardErro.style.display = "none"
+    
+
+
+</script>

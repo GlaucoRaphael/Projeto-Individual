@@ -1,0 +1,148 @@
+body{
+    background-image: url("../imagem/fundologin.jpg");
+    background-size: cover;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.icone {
+    height: 50px;
+    border-radius: 10%;
+    width: 100vw;
+    display: flex;
+    justify-content: end;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.icone img {
+    background-color: #517198;
+    height: 50px;
+    margin-top: -8px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.container{
+    background-color: #517198aa;
+    width: 450px;
+    height: 350px;
+    border-radius: 10%;
+    position: absolute;
+    top: 45%;
+    right: 150px;
+    transform: translateY(-50%);
+}
+
+.titulo{
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    text-shadow: 1px 1px 0 yellow;
+    text-decoration-line: underline;
+}
+
+
+.container .texto{
+    font-size: 50px;
+    color: white;
+    text-align: left;
+    font-size: 20px;
+    margin-top: 35px;
+    padding-left: 10px;
+}
+
+.container .senha{
+    font-size: 50px;
+    color: white;
+    text-align: left;
+    font-size: 20px;
+    margin-top: 38px;
+    padding-left: 10px;
+}
+
+.inp1{
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid white;
+    width: 250px;
+    position: fixed;
+    right: 119px;
+    top: 94px;
+    color: white;
+    font-size: 15px;
+}
+
+.inp2{
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid white;
+    width: 250px;
+    position: fixed;
+    right: 119px;
+    top: 155px;
+    color: white;
+    font-size: 15px;
+}
+
+.confirmar{
+    font-size: 50px;
+    color: white;
+    text-align: left;
+    font-size: 20px;
+    margin-top: 38px;
+    padding-left: 10px;
+}
+
+.inpConfirmar{
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid white;
+    width: 190px;
+    position: fixed;
+    right: 78px;
+    top: 215px;
+    color: white;
+    font-size: 15px;
+}
+
+button{
+    border-radius: 10%;
+color: white;
+border: none;
+ background-color: #FED97C;
+ position: fixed;
+ height: 30px;
+ width: 100px;
+ right: 180px;
+ top: 280px;
+ text-shadow: 1px 1px 0 white;   
+}
+
+.cadastro{
+ 
+    color: white;
+    text-align: center;
+    margin-top: 78px;
+    padding-left: 10px;   
+}
+
+.txt-conta{
+    font-size: 20px;
+}
+
+a:hover{
+    color: white;
+  }
+
+  a{
+    color: white;
+  }
+  .Test1{
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
